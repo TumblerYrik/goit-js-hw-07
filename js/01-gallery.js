@@ -1,6 +1,9 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
+// Отримання посилань на елементи DOM
+const galleryContainer = document.querySelector('.gallery');
+
 // Шаблон розмітки елемента галереї
 function createGalleryItem({ preview, original, description }) {
   return `
@@ -11,11 +14,6 @@ function createGalleryItem({ preview, original, description }) {
     </li>
   `;
 }
-
-// Отримання посилань на елементи DOM
-const galleryContainer = document.querySelector('.gallery');
-
-
 
 // Рендер розмітки галереї
 const galleryMarkup = galleryItems.map(createGalleryItem).join('');
@@ -33,23 +31,11 @@ function handleGalleryClick(event) {
   if (clickedElement.nodeName !== 'IMG') {
     return;
   }
-  
-  const imageURL = clickedElement.dataset.source;
-  lightbox.open({ items: [{ src: imageURL }] });
-}
-
-document.addEventListener('keydown', handleKeyPress);
-
-function handleKeyPress(event) {
-  if (event.code === 'Escape') {
-    lightbox.close();
-  }
-}
-
-
-const instance = basicLightbox.create(`
-    <h1>Dynamic Content</h1>
-    <p>You can set the content of the lightbox with JS.</p>
+  const instance = basicLightbox.create(`
+    <img src="data-source" width="800" height="600">
 `);
 
-instance.show(() => console.log("lightbox now visible"));
+  instance.show();
+}
+  const imageURL = clickedElement.dataset.source;
+  lightbox.open({ items: [{ src: imageURL }] });
