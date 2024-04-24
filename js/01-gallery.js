@@ -3,11 +3,14 @@ import { galleryItems } from "./gallery-items.js";
 
 // Отримання посилань на елементи DOM
 const galleryContainer = document.querySelector('.gallery');
+const lightbox = new SimpleLightbox(".gallery a", {
+  /* опції для lightbox */
+});
 
 // Шаблон розмітки елемента галереї
 function createGalleryItem({ preview, original, description }) {
   return `
-    <li class="gallery__item">
+    <li class="gallery__item js-item">
       <a class="gallery__link" href="${original}">
         <img class="gallery__image" src="${preview}" data-source="${original}" alt="${description}" />
       </a>
@@ -31,6 +34,8 @@ function handleGalleryClick(event) {
   if (clickedElement.nodeName !== 'IMG') {
     return;
   }
+
+  const targetElement = event.target.closest('js-item');
   const instance = basicLightbox.create(`
     <img src="data-source" width="800" height="600">
 `);
