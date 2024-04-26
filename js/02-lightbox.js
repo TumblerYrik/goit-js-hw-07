@@ -2,54 +2,45 @@ import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
 const galleryList = document.querySelector(".gallery");
-
 const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryList.insertAdjacentHTML("beforeend", galleryMarkup);
 
 function createGalleryMarkup(items) {
-    return items
-        .map(({ preview, original, description }) => {
-            return `
+  return items
+    .map(({ preview, original, description }) => {
+      return `
 <li class="gallery__item">
     <a class="gallery__link" href="${original}">
         <img class="gallery__image" src="${preview}" alt="${description}" />
-        <div class="gallery__caption"> title="${description}"</div> 
     </a>
 </li>
       `;
-        })
-        .join("");
+    })
+    .join("");
 }
 
-// Змінюємо функцію handleGalleryClick
+galleryList.addEventListener("click", handleGalleryClick);
+
 function handleGalleryClick(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    const clickedElement = event.target;
+  const clickedElement = event.target;
 
-    // Перевіряємо, чи клікнуто на зображення
-    if (clickedElement.classList.contains("gallery__image")) {
-      const largeImageUrl = clickedElement.dataset.source;
-      const imageAlt = clickedElement.alt;
+  if (!clickedElement.classList.contains("gallery__image")) {
+    return;
+  }
 
-      // Створюємо об'єкт зображення для SimpleLightbox
-      const lightboxImage = {
-        url: largeImageUrl,
-        caption: imageAlt,
-      };
+  const largeImageUrl = clickedElement.parentElement.href;
+  const imageAlt = clickedElement.alt;
 
-      // Ініціалізуємо SimpleLightbox зі зміненими параметрами
-      const lightbox = new SimpleLightbox(lightboxImage, {
-        captionsData: "alt",
-        captionDelay: 250,
-      });
+  const lightbox = new SimpleLightbox(".gallery a", {
+    captionsData: "alt", 
+    captionDelay: 250, 
+  });
 
-      // Відкриваємо SimpleLightbox з об'єктом зображення
-      lightbox.open();
-    }
 }
 
-// Додаємо обробник події на ul.gallery
-document.querySelector('.gallery').addEventListener('click', handleGalleryClick);
-
+document
+  .querySelector(".gallery")
+  .addEventListener("click", handleGalleryClick);
 
